@@ -58,7 +58,7 @@ pypi:
 PROJECT_ID=fine-citadel-311213
 
 # bucket name - replace with your GCP bucket name
-BUCKET_NAME=wildfire_datasets
+BUCKET_NAME= wildfires_le_wagon
 
 # choose your region from https://cloud.google.com/storage/docs/locations#available_locations
 REGION=europe-west4

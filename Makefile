@@ -54,6 +54,10 @@ pypi_test:
 pypi:
 	@twine upload dist/* -u $(PYPI_USERNAME)
 
+
+run_streamlit:
+    streamlit run frontend_streamlit.py
+
 # project id - replace with your GCP project id
 PROJECT_ID=fine-citadel-311213
 

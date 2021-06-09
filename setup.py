@@ -15,3 +15,11 @@ setup(name='wildfire_prediction',
       include_package_data=True,
       scripts=['scripts/wildfire_prediction-run'],
       zip_safe=False)
+
+setup(
+    name="streamlitapp",
+    version="1.0",
+    description="streamlit app",
+    packages=find_packages(),
+    include_package_data=True,  # includes in package files from MANIFEST.in
+    install_requires=requirements)

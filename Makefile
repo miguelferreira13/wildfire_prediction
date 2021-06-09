@@ -81,3 +81,21 @@ BUCKET_FILE_NAME=$(shell basename ${/Users/felixhermes/code/miguelferreira13/wil
 upload_data:
     # @gsutil cp train_1k.csv gs://wagon-ml-my-bucket-name/data/train_1k.csv
 	@gsutil cp ${LOCAL_PATH} gs://${BUCKET_NAME}/${BUCKET_FOLDER}/${BUCKET_FILE_NAME}
+
+
+PYTHON_VERSION=3.7
+RUNTIME_VERSION=1.15
+
+PACKAGE_NAME= wildfire_prediction
+FILENAME =trainer
+JOB_NAME=wildfire_training_pipeline_$(shell date +'%Y%m%d_%H%M%S')
+
+gcp_submit_training:
+	@gcloud ai-platform jobs submit training ${JOB_NAME} \
+  --job-dir gs://${BUCKET_NAME}/${BUCKET_TRAINING_FOLDER}  \
+  --package-path ${PACKAGE_NAME} \
+  --module-name ${PACKAGE_NAME}.${FILENAME} \
+  --python-version=${PYTHON_VERSION} \
+  --runtime-version=${RUNTIME_VERSION} \
+  --region ${REGION} \
+  --stream-logs

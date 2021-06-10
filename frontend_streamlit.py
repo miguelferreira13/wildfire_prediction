@@ -15,7 +15,7 @@ st.markdown("""
 
 with st.echo():
 
-    map_australia = folium.Map(location=[-25.2744, 133.7751], zoom_start=1)
+    map_australia = folium.Map(location=[-25.2744, 133.7751], zoom_start=3)
 
     folium_static(map_australia)
 

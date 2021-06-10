@@ -141,7 +141,6 @@ rsa==4.7.2
 scipy==1.6.3
 seaborn==0.11.1
 Send2Trash==1.5.0
-six==1.15.0
 smmap==4.0.0
 sniffio==1.2.0
 streamlit==0.82.0

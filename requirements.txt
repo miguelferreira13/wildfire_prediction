@@ -176,4 +176,6 @@ Werkzeug==2.0.1
 widgetsnbextension==3.5.1
 wrapt==1.12.1
 yarl==1.6.3
+folium
+streamlit-folium
 

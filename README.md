@@ -1,74 +1,17 @@
-# Data analysis
-- Document here the project: wildfire_prediction
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+# Project idea
+The goal of the wildfire_prediction project is to predict wheather a wildfire is going to occur, and if so, how big it will be. 
+The location of interest is Australia. 
 
-Please document the project the better you can.
+# Model for prediction of weather a wildfire is going to happen 
+The optimal model is a random forest. We chose among several machine learning models, as well as deep learning models, because it exhibited the best performance. 
+For the exploration of different models, please refer to the notebooks FH_base_model.ipynb and FH_NN.ipynb. 
 
-# Startup the project
-
-The initial setup.
-
-Create virtualenv and install the project:
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
-
-Unittest test:
-```bash
-make clean install test
-```
-
-Check for wildfire_prediction in gitlab.com/{group}.
-If your project is not set please add it:
-
-- Create a new project on `gitlab.com/{group}/wildfire_prediction`
-- Then populate it:
-
-```bash
-##   e.g. if group is "{group}" and project_name is "wildfire_prediction"
-git remote add origin git@github.com:{group}/wildfire_prediction.git
-git push -u origin master
-git push -u origin --tags
-```
-
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-wildfire_prediction-run
-```
-
-# Install
-
-Go to `https://github.com/{group}/wildfire_prediction` to see the project, manage issues,
-setup you ssh public key, ...
-
-Create a python3 virtualenv and activate it:
-
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
-```
-
-Clone the project and install it:
-
-```bash
-git clone git@github.com:{group}/wildfire_prediction.git
-cd wildfire_prediction
-pip install -r requirements.txt
-make clean install test                # install and test
-```
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-wildfire_prediction-run
-```
+In the rf_model.py file, the following functions can be found:
+- get_data(): loads the dataset 
+- preprocess(): preprocesses the data, namely sums up the forest measures and does the train test split. One hot encoding has already been done for the csv file and scaling is not necessary for a random forest.
+- train_model(): trains the random forest
+- predict_rf(): returns a binary prediction of weather there will be a fire or not
+- predict_proba_rf(): returns a probability that a wildfire happens 
+- score_rf(): returns a score of the model based on the test set 
+- save_model(): saves the model as a joblib file 
+- load_model(): loads the model 

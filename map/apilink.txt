@@ -1,0 +1,7 @@
+preview only : https://api.mapbox.com/styles/v1/kryscage/ckpqorm1d026o19puj67p89ab.html?fresh=true&title=view&access_token=pk.eyJ1Ijoia3J5c2NhZ2UiLCJhIjoiY2twcWwzajE3MDh1YzJ2czhvdnI1bDBubCJ9.nAG4P8C2gctaVIhBhH3Z6w
+
+allow copying: https://api.mapbox.com/styles/v1/kryscage/ckpqorm1d026o19puj67p89ab.html?fresh=true&title=copy&access_token=pk.eyJ1Ijoia3J5c2NhZ2UiLCJhIjoiY2twcWwzajE3MDh1YzJ2czhvdnI1bDBubCJ9.nAG4P8C2gctaVIhBhH3Z6w
+
+Style URL: mapbox://styles/kryscage/ckpqorm1d026o19puj67p89ab
+
+Access token: pk.eyJ1Ijoia3J5c2NhZ2UiLCJhIjoiY2twcWwzajE3MDh1YzJ2czhvdnI1bDBubCJ9.nAG4P8C2gctaVIhBhH3Z6w

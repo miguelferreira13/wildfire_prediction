@@ -14,6 +14,13 @@ import json
 #     data = json.load(f)
 Cities = pd.read_csv("../wildfire_prediction/Australian_cities.csv")
 df = pd.DataFrame(data=Cities, columns=['city', 'lat', 'lng', 'admin_name'])
+# from streamlit_folium import folium_static
+# import geopandas as gpd
+# import folium
+import pydeck as pdk
+# from folium.plugins import TimeSliderChoropleth
+# import seaborn as sns
+# import plotly.express as px
 
 st.markdown("""
     # Wildfire prediction for Australia

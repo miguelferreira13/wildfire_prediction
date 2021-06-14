@@ -3,6 +3,8 @@ import requests
 import pandas as pd
 import datetime
 import numpy as np
+import os
+
 
 def merge_two_dicts(x, y):
     z = x.copy()
@@ -51,7 +53,11 @@ def get_weather(i, location):
     
     # print(info)
     
-    data = pd.read_csv('../wildfire_prediction/data/wfz_data.csv',index_col=0)
+    root_path = os.path.dirname(os.path.abspath(os.path.curdir))
+    data_folder_path = os.path.join(root_path, 'wildfire_prediction/wildfire_prediction', 'data')
+    data_file_path = os.path.join(data_folder_path, 'wfz_data.csv')
+
+    data = pd.read_csv(data_file_path)
     month = datetime.datetime.today().month
     state = states[response['state_code']]
     

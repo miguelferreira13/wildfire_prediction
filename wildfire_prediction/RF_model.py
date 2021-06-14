@@ -12,7 +12,7 @@ STORAGE_LOCATION = 'models/wildfire_prediction/model_binary.joblib'
 
 def get_data():
     root_path = os.path.dirname(os.path.abspath(os.path.curdir))
-    data_folder_path = os.path.join(root_path, 'wildfire_prediction', 'data')
+    data_folder_path = os.path.join(root_path, 'wildfire_prediction/wildfire_prediction', 'data')
     data_file_path = os.path.join(data_folder_path, 'FH_data_final.csv')
 
     data = pd.read_csv(data_file_path)

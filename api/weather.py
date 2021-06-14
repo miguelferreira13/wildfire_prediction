@@ -1,4 +1,11 @@
 import requests
+import pandas as pd
+import datetime
+
+def merge_two_dicts(x, y):
+    z = x.copy()
+    z.update(y)
+    return z
 
 def get_weather(i, location):
     
@@ -34,5 +41,17 @@ def get_weather(i, location):
         'state' : states[response['state_code']]
     }
     
-    return info
+    # print(info)
+    
+    data = pd.read_csv('../wildfire_prediction/data/wfz_data.csv',index_col=0)
+    month = datetime.datetime.today().month
+    
+    filtered_data = data[(data.index == month) & (data.Region == 'TA')]
+    values = {f'{col}': filtered_data['Region'].values[0] for col in filtered_data.columns}
+    
+    # print(values)
+    
+    return merge_two_dicts(info, values)
+
+print(get_weather(1, 'sydney'))
 

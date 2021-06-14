@@ -1,3 +1,5 @@
+from numpy.lib.utils import safe_eval
+from google.cloud import storage
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import OneHotEncoder, RobustScaler
@@ -6,6 +8,11 @@ from sklearn.model_selection import train_test_split, cross_val_score, GridSearc
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import RandomForestRegressor
 import joblib
+
+BUCKET_NAME = 'wildfires_le_wagon'
+MODEL_NAME = 'wildfire_size_model'
+MODEL_VERSION = 'v1'
+STORAGE_LOCATION = 'models/wildfire_prediction/wildfire_size_model.joblib'
 
 df = pd.read_csv('data/merged_file.csv', index_col=0)
 
@@ -81,4 +88,14 @@ print(cross_val_score(rdf, X_test, y_test).mean())
 
 X_test.to_csv('test_X', index=False)
 y_test.to_csv('test_y', index=False)
-joblib.dump(rdf, 'rdf_model_fire_size.joblib')
+joblib.dump(rdf, 'wildfire_size_model.joblib')
+
+
+
+client = storage.Client()
+
+bucket = client.bucket(BUCKET_NAME)
+
+blob = bucket.blob(STORAGE_LOCATION)
+
+blob.upload_from_filename('wildfire_size_model.joblib')

@@ -77,5 +77,3 @@ def size(i, location):
     
     return pd.DataFrame(fire_size)
     
-    
-print(size(1, 'Melbourne'))

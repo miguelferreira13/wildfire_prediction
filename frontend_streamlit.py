@@ -43,5 +43,3 @@ st.write(pdk.Deck(
 #     tiles= 'https://api.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoia3J5c2NhZ2UiLCJhIjoiY2twcWwzajE3MDh1YzJ2czhvdnI1bDBubCJ9.nAG4P8C2gctaVIhBhH3Z6w', 
 #     attr = "blabla",
 #     zoom_start=3.2)
-    
-#     folium_static(map_australia)

@@ -62,7 +62,7 @@ def get_weather(i, location):
 
 def size(i, location):
     
-    columns = ['count()[unit: km^2]', 'max() Temperature', 'mean() Precipitation',
+    columns_size = ['count()[unit: km^2]', 'max() Temperature', 'mean() Precipitation',
         'mean() RelativeHumidity', 'mean() SolarRadiation',
         'mean() Temperature', 'mean() WindSpeed', 'min() Temperature',
         'Vegetation_index_mean', 'Shrubs', 'Herbaceous vegetation',
@@ -73,7 +73,20 @@ def size(i, location):
     
     data = get_weather(i, location)
     
-    fire_size = [data[col] for col in columns]
+    fire_size = [data[col] for col in columns_size]
     
-    return pd.DataFrame(fire_size)
+    columns_binary = ['count()[unit: km^2]', 'mean() Temperature', 'max() Temperature',
+        'min() Temperature', 'mean() WindSpeed',
+        'mean() RelativeHumidity', 'mean() Precipitation', 'mean() SolarRadiation',
+        'Vegetation_index_mean', 'Shrubs', 'Herbaceous vegetation',
+        'Cultivated and managed vegetation/agriculture (cropland)',
+        'Urban / built up', 'Bare / sparse vegetation',
+        'Permanent water bodies', 'Herbaceous wetland', 'Open sea',
+        'NSW', 'NT', 'QL', 'SA', 'TA', 'VI', 'WA', 'forest']
+    
+    data = get_weather(i, location)
+    
+    fire_binary = [data[col] for col in columns_binary]
+    
+    return pd.DataFrame(fire_size), pd.DataFrame(fire_binary)
     

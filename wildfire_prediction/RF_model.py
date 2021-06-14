@@ -33,7 +33,7 @@ def preprocess(data):
                         'Open forest, unknown definitions'],\
                             inplace= True)
     y = data.target
-    X = data.drop(columns = ['target'])
+    X = data.drop(columns = ['target', 'Day', 'Month', 'Year', 'Vegetation_index_variance'])
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, random_state=3)
     return X_train, y_train, X_test, y_test
 

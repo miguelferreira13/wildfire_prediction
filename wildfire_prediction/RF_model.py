@@ -3,6 +3,12 @@ import os
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from joblib import dump, load
+from google.cloud import storage
+
+BUCKET_NAME = 'wildfires_le_wagon'
+BUCKET_TRAIN_DATA_PATH = 'merged_data/merged_file.csv'
+MODEL_NAME = 'wildfire prediction'
+STORAGE_LOCATION = 'models/wildfire_prediction/model_binary.joblib'
 
 def get_data():
     root_path = os.path.dirname(os.path.abspath(os.path.curdir))
@@ -51,9 +57,24 @@ def score_rf(rf_model, X_test, y_test):
     score = rf_model.score(X_test, y_test)
     return score
 
-def save_model(rf_model):
+#def save_model(rf_model):
     model_binary = dump(rf_model, 'model_binary.joblib') 
     return model_binary
+
+def upload_model_to_gcp():
+    client = storage.Client()
+
+    bucket = client.bucket(BUCKET_NAME)
+
+    blob = bucket.blob(STORAGE_LOCATION)
+
+    blob.upload_from_filename('model_binary.joblib')
+
+def save_model(rf_model):
+    dump(rf_model, 'model_binary.joblib')
+    
+    # Implement here
+    upload_model_to_gcp()
 
 def load_model():
     model = load('model_binary.joblib')

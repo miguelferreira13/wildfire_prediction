@@ -1,6 +1,8 @@
+from math import ceil
 import requests
 import pandas as pd
 import datetime
+import numpy as np
 
 def merge_two_dicts(x, y):
     z = x.copy()
@@ -73,7 +75,7 @@ def size(i, location):
     
     data = get_weather(i, location)
     
-    fire_size = [data[col] for col in columns_size]
+    fire_size = np.array([data[col] for col in columns_size])
     
     columns_binary = ['count()[unit: km^2]', 'mean() Temperature', 'max() Temperature',
         'min() Temperature', 'mean() WindSpeed',
@@ -82,11 +84,11 @@ def size(i, location):
         'Cultivated and managed vegetation/agriculture (cropland)',
         'Urban / built up', 'Bare / sparse vegetation',
         'Permanent water bodies', 'Herbaceous wetland', 'Open sea',
-        'NSW', 'NT', 'QL', 'SA', 'TA', 'VI', 'WA', 'forest']
+        'NSW', 'NT', 'QL', 'SA', 'TA', 'VI', 'WA', 'Forest']
     
     data = get_weather(i, location)
     
-    fire_binary = [data[col] for col in columns_binary]
+    fire_binary = np.array([data[col] for col in columns_binary])
     
-    return pd.DataFrame(fire_size), pd.DataFrame(fire_binary)
-    
+    return pd.DataFrame(fire_size.reshape(-1, len(fire_size)), columns=columns_size), \
+        pd.DataFrame(fire_binary.reshape(-1, len(fire_size)), columns=columns_binary)

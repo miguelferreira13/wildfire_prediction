@@ -56,7 +56,7 @@ pypi:
 
 
 run_streamlit:
-    streamlit run frontend_streamlit.py
+	streamlit run frontend_streamlit.py
 
 # project id - replace with your GCP project id
 PROJECT_ID=fine-citadel-311213
@@ -103,3 +103,6 @@ gcp_submit_training:
   --runtime-version=${RUNTIME_VERSION} \
   --region ${REGION} \
   --stream-logs
+
+run_api:
+	uvicorn api.fast:app --reload

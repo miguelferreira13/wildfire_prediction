@@ -35,4 +35,4 @@ def get_weather(i, location):
     }
     
     return info
-    
+

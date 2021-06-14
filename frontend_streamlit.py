@@ -37,7 +37,6 @@ elif  title in list(df['city']):
 else:
     st.write('This is not a city in Australia')
 
-
 st.write(pdk.Deck(
         map_style="mapbox://styles/mapbox/satellite-streets-v11",
         initial_view_state={

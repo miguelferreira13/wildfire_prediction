@@ -4,9 +4,7 @@ import folium
 import pydeck as pdk
 
 st.markdown("""
-
     # Wildfire prediction for Australia
-
     ## Data Science group project 
     ## Le-Wagon Amsterdam batch 627
     ## Felix Hermes, Miguel Ferreira & Krystyna Kooi
@@ -47,4 +45,3 @@ st.write(pdk.Deck(
 #     zoom_start=3.2)
     
 #     folium_static(map_australia)
-

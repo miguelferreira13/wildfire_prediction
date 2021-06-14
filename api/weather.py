@@ -46,8 +46,8 @@ def get_weather(i, location):
     data = pd.read_csv('../wildfire_prediction/data/wfz_data.csv',index_col=0)
     month = datetime.datetime.today().month
     
-    filtered_data = data[(data.index == month) & (data.Region == 'TA')]
-    values = {f'{col}': filtered_data['Region'].values[0] for col in filtered_data.columns}
+    filtered_data = data[(data.index == month) & (data.Region == info['state'])]
+    values = {f'{col}': filtered_data[col].values[0] for col in filtered_data.columns}
     
     # print(values)
     

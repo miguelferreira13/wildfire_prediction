@@ -31,24 +31,51 @@ def get_weather(i, location):
     }
     
     info = {
-        'temp_min' : response['data'][i-1]['min_temp'],
-        'temp_max' : response['data'][i-1]['max_temp'],
-        'temp_mean' : response['data'][i-1]['temp'],
-        'precipitation' : response['data'][i-1]['precip'],
-        'uv' : response['data'][i-1]['uv'],
-        'wind_speed' : response['data'][i-1]['wind_spd'],
-        'humidity' : response['data'][i-1]['rh'],
-        'state' : states[response['state_code']]
+        'min() Temperature' : response['data'][i-1]['min_temp'],
+        'max() Temperature' : response['data'][i-1]['max_temp'],
+        'mean() Temperature' : response['data'][i-1]['temp'],
+        'mean() Precipitation' : response['data'][i-1]['precip'],
+        'mean() SolarRadiation' : response['data'][i-1]['uv'],
+        'mean() WindSpeed' : response['data'][i-1]['wind_spd'],
+        'mean() RelativeHumidity' : response['data'][i-1]['rh'],
+        'NSW' : 1 if states[response['state_code']] == 'NSW' else 0,
+        'NT' : 1 if states[response['state_code']] == 'NR' else 0,
+        'QL' : 1 if states[response['state_code']] == 'QL' else 0, 
+        'SA' : 1 if states[response['state_code']] == 'SA' else 0, 
+        'TA' : 1 if states[response['state_code']] == 'TA' else 0, 
+        'VI' : 1 if states[response['state_code']] == 'VI' else 0, 
+        'WA' : 1 if states[response['state_code']] == 'WA' else 0
     }
     
     # print(info)
     
     data = pd.read_csv('../wildfire_prediction/data/wfz_data.csv',index_col=0)
     month = datetime.datetime.today().month
+    state = states[response['state_code']]
     
-    filtered_data = data[(data.index == month) & (data.Region == info['state'])]
+    filtered_data = data[(data.index == month) & (data.Region == state)]
     values = {f'{col}': filtered_data[col].values[0] for col in filtered_data.columns}
     
     # print(values)
     
     return merge_two_dicts(info, values)
+
+def size(i, location):
+    
+    columns = ['count()[unit: km^2]', 'max() Temperature', 'mean() Precipitation',
+        'mean() RelativeHumidity', 'mean() SolarRadiation',
+        'mean() Temperature', 'mean() WindSpeed', 'min() Temperature',
+        'Vegetation_index_mean', 'Shrubs', 'Herbaceous vegetation',
+        'Cultivated and managed vegetation/agriculture (cropland)',
+        'Urban / built up', 'Bare / sparse vegetation',
+        'Permanent water bodies', 'Herbaceous wetland', 'Open sea', 'Forest',
+        'NSW', 'NT', 'QL', 'SA', 'TA', 'VI', 'WA']
+    
+    data = get_weather(i, location)
+    
+    fire_size = [data[col] for col in columns]
+    
+    return pd.DataFrame(fire_size)
+    
+    
+print(size(1, 'Melbourne'))

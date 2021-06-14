@@ -52,6 +52,3 @@ def get_weather(i, location):
     # print(values)
     
     return merge_two_dicts(info, values)
-
-print(get_weather(1, 'sydney'))
-

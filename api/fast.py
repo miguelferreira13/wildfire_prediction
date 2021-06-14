@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import wildfire_prediction.RF_model as rf
 from google.cloud import storage
 import joblib
+import api.weather as w
 
 BUCKET_NAME = 'wildfires_le_wagon'
 BUCKET_TRAIN_DATA_PATH = 'merged_data/merged_file.csv'
@@ -25,6 +26,11 @@ def predict_fire():
     blob = bucket.blob(STORAGE_LOCATION)
     blob.blob.download_to_filename('model_binary.joblib')
     rf_model =joblib.load('model_binary.joblib')
+    size_model = joblib.load('wildfire_size_model.joblib.joblib')
     
-    probability = rf.predict_proba_rf(rf_model, 'DATAFRAME_FROM_API')
-    return {"probability": probability}
+    size, binary = w.size(1, 'Sydney')
+    
+    probability = rf.predict_proba_rf(rf_model, binary)
+    size_pred = rf.predict_proba_rf(size_model, size)
+    
+    return {"probability": probability, "size_pred": size_pred}

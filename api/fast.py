@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sklearn.utils.fixes import _joblib_parallel_args
-# import wildfire_prediction.RF_model as rf
 from google.cloud import storage
 import joblib
 import api.weather as w
@@ -42,12 +41,15 @@ def predict_fire():
     size_model = joblib.load('wildfire_size_model.joblib')
     
     # Data for prediction
-    size, binary = w.size(1, 'Wagga Wagga')
+    # size, binary = w.size(1, 'Wagga Wagga')
+    size, binary = w.get_all_states(1)
+    
+    
     
     # Results
     probability = rf_model.predict_proba(binary)
     size_pred = size_model.predict(size)
 
     
-    return {"probability": probability[0][1], 'size': size_pred[0]}
+    return {"probability": probability, 'size': size_pred}
 print(predict_fire())

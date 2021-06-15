@@ -5,6 +5,7 @@ import csv
 import json
 import matplotlib.pyplot as plt
 import os
+
 # from fast import *
 from google.cloud import storage
 
@@ -43,31 +44,32 @@ elif  title in list(data['city']):
     #Weather API
 else:
     st.write('This is not a city in Australia')
-
-st.write(pdk.Deck(
-        map_style="mapbox://styles/mapbox/satellite-streets-v11",
-        initial_view_state={
-            "latitude": -25.2744,
-            "longitude": 133.7751,
-            "zoom": 3.2,
-            "pitch": 50,
-        },
-
-        layers = pdk.Layer(
+layer = pdk.Layer(
             "ScatterplotLayer",
             df,
             pickable=True,
             opacity=0.8, #input here for probability
             stroked=True,
             filled=True,
-            radius_scale=6,
             radius_min_pixels=1,
-            radius_max_pixels=100,
+            radius_max_pixels=100000,
             line_width_min_pixels=1,
             get_position=coordinates,
-            get_radius=200, #input will be the firesize
+            get_radius='normValue', #input will be the firesize
             get_fill_color=[255, 140, 0],
-            get_line_color=[0, 0, 0],
+            get_line_color=[0, 0, 0]
+        )
+Key = 'pk.eyJ1Ijoia3J5c2NhZ2UiLCJhIjoiY2twcWwzajE3MDh1YzJ2czhvdnI1bDBubCJ9.nAG4P8C2gctaVIhBhH3Z6w'
+
+st.pydeck_chart(pdk.Deck(
+        map_style='mapbox://styles/mapbox/satellite-streets-v11',
+        layers = [layer],
+        initial_view_state=pdk.ViewState(
+            mapboxApiAccessToken= Key,
+            latitude = -25.2744,
+            longitude =  133.7751,
+            zoom =  3.2,
+            pitch =  50,
         )
     ))
 

@@ -5,8 +5,8 @@ import csv
 import json
 import matplotlib.pyplot as plt
 import os
-
-# from fast import *
+import folium
+from streamlit_folium import folium_static
 from google.cloud import storage
 
 coordinates = [{'state': 'NSW', 'coordinates': [-31.840233, 145.612793]},
@@ -44,34 +44,37 @@ elif  title in list(data['city']):
     #Weather API
 else:
     st.write('This is not a city in Australia')
-layer = pdk.Layer(
-            "ScatterplotLayer",
-            df,
-            pickable=True,
-            opacity=0.8, #input here for probability
-            stroked=True,
-            filled=True,
-            radius_min_pixels=1,
-            radius_max_pixels=100000,
-            line_width_min_pixels=1,
-            get_position=coordinates,
-            get_radius='normValue', #input will be the firesize
-            get_fill_color=[255, 140, 0],
-            get_line_color=[0, 0, 0]
-        )
-Key = 'pk.eyJ1Ijoia3J5c2NhZ2UiLCJhIjoiY2twcWwzajE3MDh1YzJ2czhvdnI1bDBubCJ9.nAG4P8C2gctaVIhBhH3Z6w'
+    
 
-st.pydeck_chart(pdk.Deck(
-        map_style='mapbox://styles/mapbox/satellite-streets-v11',
-        layers = [layer],
-        initial_view_state=pdk.ViewState(
-            mapboxApiAccessToken= Key,
-            latitude = -25.2744,
-            longitude =  133.7751,
-            zoom =  3.2,
-            pitch =  50,
-        )
-    ))
+
+#layer = pdk.Layer(
+           # "ScatterplotLayer",
+            #data = df,
+        #    pickable=True,
+         #   opacity=0.8, #input here for probability
+          #  stroked=True,
+           # filled=True,
+            #radius_min_pixels=1,
+        #    radius_max_pixels=100000,
+         #   line_width_min_pixels=1,
+          #  get_position=coordinates,
+           # get_radius='normValue', #input will be the firesize
+            #get_fill_color=[255, 140, 0],
+            #get_line_color=[0, 0, 0]
+       # )
+#Key = 'pk.eyJ1Ijoia3J5c2NhZ2UiLCJhIjoiY2twcWwzajE3MDh1YzJ2czhvdnI1bDBubCJ9.nAG4P8C2gctaVIhBhH3Z6w'
+
+#st.pydeck_chart(pdk.Deck(
+    #    map_style='mapbox://styles/mapbox/satellite-streets-v11',
+     #   layers = [layer],
+      #  initial_view_state=pdk.ViewState(
+       #     mapboxApiAccessToken= Key,
+        #    latitude = -25.2744,
+         #   longitude =  133.7751,
+          #  zoom =  3.2,
+           # pitch =  50,
+     #   )
+   # ))
 
 # "# streamlit-folium"
 
@@ -86,3 +89,16 @@ st.pydeck_chart(pdk.Deck(
 
 # coordinates_states = {'NSW':[-32.0948, 147.0100], 'NT': [-19.2300, 133.2128] ,'SA': [-30.0330, 135.4548],\
 #          'QL': [-22.2913, 144.2554], 'VI': [36.5115, 144.1652], 'TA': [-42.0117, 146.3536], 'WA': [-25.1941, 122.1754]}
+
+with st.echo():
+    coordinates_aus = [-25.2744, 133.7751]
+
+    m = folium.Map(tiles='Stamen Terrain',location=coordinates_aus, zoom_start=3.5)
+    for i in range(7):
+        folium.Circle(coordinates[i]['coordinates'],
+                      fill=True,
+                      fill_color='crimson',
+                      color='red',
+                      radius=200000,
+                      popup='this is the probability').add_to(m)
+    folium_static(m)

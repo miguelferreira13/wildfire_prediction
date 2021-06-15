@@ -94,7 +94,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size= 0.1)
 
 
 #Random Forest Model
-rdf = RandomForestRegressor(criterion= 'mae', max_features= 'log2', n_estimators= 100)
+rdf = RandomForestRegressor(criterion= 'mae', max_features= 'auto', n_estimators= 120)
 rdf.fit(X_train, y_train)
 
 print(rdf.score(X_test, y_test))
@@ -115,3 +115,4 @@ bucket = client.bucket(BUCKET_NAME)
 blob = bucket.blob(STORAGE_LOCATION)
 
 blob.upload_from_filename('wildfire_size_model.joblib')
+

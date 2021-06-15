@@ -57,7 +57,7 @@ def get_weather(i, location):
     data_folder_path = os.path.join(root_path, 'wildfire_prediction/wildfire_prediction', 'data')
     data_file_path = os.path.join(data_folder_path, 'wfz_data.csv')
 
-    data = pd.read_csv(data_file_path)
+    data = pd.read_csv(data_file_path, index_col=0)
     month = datetime.datetime.today().month
     state = states[response['state_code']]
     

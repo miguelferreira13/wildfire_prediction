@@ -3,19 +3,17 @@ import pandas as pd
 import pydeck as pdk
 import csv
 import json
-from fast import *
-# from streamlit_folium import folium_static
-# import geopandas as gpd
-# import folium
-# from folium.plugins import TimeSliderChoropleth
-# import seaborn as sns
-# import plotly.express as px
+import geopandas
+import matplotlib.pyplot as plt
+# from fast import *
+from google.cloud import storage
 
-# with open('../wildfire_prediction/Australian_cities.json') as f:
-#     data = json.load(f)
-STORAGE_LOCATION3 = ‘merged_data/Australian_cities.csv’
-Cities = pd.read_csv(f”gs://{STORAGE_LOCATION3}“)
-df = pd.DataFrame(data=Cities, columns=['city', 'lat', 'lng', 'admin_name'])
+storage_client = storage.Client.from_service_account_json("/home/kryscage/code/kryscage/fine-citadel-311213.json")
+bucket = storage_client.get_bucket('wildfires_le_wagon')
+data = bucket.get_blob('Australian_cities')
+# STORAGE_LOCATION3 = ‘merged_data/Australian_cities.csv’
+# Cities = pd.read_csv(f”gs://{STORAGE_LOCATION3}“)
+df = pd.DataFrame(data=data, columns=['city', 'lat', 'lng', 'admin_name'])
 
 coordinates = df[['lat'], ['lng']]
 
@@ -43,7 +41,7 @@ st.write(pdk.Deck(
             "longitude": 133.7751,
             "zoom": 3.2,
             "pitch": 50,
-        }
+        },
 
         layer = pdk.Layer(
             "ScatterplotLayer",
@@ -57,7 +55,7 @@ st.write(pdk.Deck(
             radius_max_pixels=100,
             line_width_min_pixels=1,
             get_position=coordinates,
-            get_radius="exits_radius", #input will be the firesize
+            get_radius=2, #input will be the firesize
             get_fill_color=[255, 140, 0],
             get_line_color=[0, 0, 0],
         )

@@ -167,4 +167,5 @@ wrapt==1.12.1
 yarl==1.6.3
 folium
 streamlit_folium
+geopandas
 

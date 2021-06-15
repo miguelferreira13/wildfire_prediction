@@ -3,19 +3,29 @@ import pandas as pd
 import pydeck as pdk
 import csv
 import json
-import geopandas
 import matplotlib.pyplot as plt
+import os
 # from fast import *
 from google.cloud import storage
 
-storage_client = storage.Client.from_service_account_json("/home/kryscage/code/kryscage/fine-citadel-311213.json")
-bucket = storage_client.get_bucket('wildfires_le_wagon')
-data = bucket.get_blob('Australian_cities')
+coordinates = [{'state': 'NSW', 'coordinates': [-31.840233, 145.612793]},
+               {'state': 'NT', 'coordinates': [-19.491411, 132.550964]},
+               {'state': 'QL', 'coordinates': [-20.917574, 142.702789]},
+               {'state': 'SA', 'coordinates': [-30.000233, 136.209152]},
+               {'state': 'TA', 'coordinates': [-41.640079, 146.315918]},
+               {'state': 'VI', 'coordinates': [-37.020100, 144.964600]},
+               {'state': 'WA', 'coordinates': [-25.042261, 117.793221]}]
+#storage_client = storage.Client.from_service_account_json("/home/kryscage/code/kryscage/fine-citadel-311213.json")
+#bucket = storage_client.get_bucket('wildfires_le_wagon')
+#data = bucket.get_blob('Australian_cities')
 # STORAGE_LOCATION3 = ‘merged_data/Australian_cities.csv’
 # Cities = pd.read_csv(f”gs://{STORAGE_LOCATION3}“)
-df = pd.DataFrame(data=data, columns=['city', 'lat', 'lng', 'admin_name'])
+df = pd.DataFrame(data=coordinates, columns=['state', 'coordinates'])
+root_path = os.path.dirname(os.path.abspath(os.path.curdir))
+data_folder_path = os.path.join(root_path, 'wildfire_prediction')
+data_file_path = os.path.join(data_folder_path, 'Australian_cities.csv')
 
-coordinates = df[['lat'], ['lng']]
+data = pd.read_csv(data_file_path)
 
 st.markdown("""
     # Wildfire prediction for Australia
@@ -28,7 +38,7 @@ title2 = st.text_input('Horizon', 'Type in the amount of days')
 
 if title == 'Type in an Australian city name':
     st.write('Waiting for Forecast')
-elif  title in list(df['city']):
+elif  title in list(data['city']):
     st.write(f'The forecast for {title} is')
     #Weather API
 else:
@@ -43,11 +53,11 @@ st.write(pdk.Deck(
             "pitch": 50,
         },
 
-        layer = pdk.Layer(
+        layers = pdk.Layer(
             "ScatterplotLayer",
             df,
             pickable=True,
-            opacity=0.8,
+            opacity=0.8, #input here for probability
             stroked=True,
             filled=True,
             radius_scale=6,
@@ -55,7 +65,7 @@ st.write(pdk.Deck(
             radius_max_pixels=100,
             line_width_min_pixels=1,
             get_position=coordinates,
-            get_radius=2, #input will be the firesize
+            get_radius=200, #input will be the firesize
             get_fill_color=[255, 140, 0],
             get_line_color=[0, 0, 0],
         )

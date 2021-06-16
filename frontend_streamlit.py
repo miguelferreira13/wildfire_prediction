@@ -35,7 +35,7 @@ root_path = os.path.dirname(os.path.abspath(os.path.curdir))
 data_folder_path = os.path.join(root_path, 'wildfire_prediction')
 data_file_path = os.path.join(data_folder_path, 'Australian_cities.csv')
 
-data = pd.read_csv('Australian_cities')
+data = pd.read_csv('Australian_cities.csv')
 st.set_page_config(page_title="My Wildfire prediction",layout='wide')
 
 st.markdown("""
@@ -58,7 +58,7 @@ col1.markdown("")
 col1.markdown("")
 col1.markdown("")
 col1.markdown(":stopwatch:")
-CITY = col2.selectbox('Select a city', tuple(['Click here'] + list(data['city'])))
+CITY = col2.selectbox('Select a city', tuple(['Showing sates (default)'] + list(data['city'])))
 # CITY = col2.text_input('Forecast', 'Type in an Australian city name')
 
 HORIZON = col2.slider('Horizon', 1, 16)
@@ -72,7 +72,7 @@ HORIZON = col2.slider('Horizon', 1, 16)
 #     col2.write('This is not a city in Australia.')
 
 button_pressed = False
-if CITY != 'Click here':
+if CITY != 'Showing sates (default)':
     button_pressed = True
 
 horizon = 1 if HORIZON == None or HORIZON == 'Type in the amount of days' else int(HORIZON)
@@ -120,10 +120,12 @@ basemaps = {
 
 
 with col3:
-    coordinates_aus = [-25.2744, 133.7751]
-
-    m = folium.Map(location=coordinates_aus, zoom_start=4)
+    
     if not button_pressed:
+        
+        coordinates_aus = [-25.2744, 133.7751]
+        m = folium.Map(location=coordinates_aus, zoom_start=4.3)
+    
         for i in range(7):
             folium.Circle(coordinates[i]['coordinates'],
                         fill=True,
@@ -133,11 +135,12 @@ with col3:
                         popup=f"State: {coordinates[i]['state'].upper()}\n\
                             Fire_probability: {probabilities[i][1]*0.8:.1%}\n\
                             Estimated_size: {sizes[i]:.1f} km_2").add_to(m)
-            
+        # Add custom basemaps
+        basemaps['Google Maps'].add_to(m)
+        basemaps['Google Satellite Hybrid'].add_to(m)
+        folium_static(m)
 
-    # Add custom basemaps
-    basemaps['Google Maps'].add_to(m)
-    basemaps['Google Satellite Hybrid'].add_to(m)
+    
 
     
     if button_pressed:
@@ -145,6 +148,10 @@ with col3:
         sizes_city = city_api['size'][0]
         probabilities_city = city_api['probability'][0][1]
         city_coordinates = list(data[data.city == CITY.title()][['lat', 'lng']].values)[0]
+        
+        
+        m = folium.Map(location=city_coordinates, zoom_start=8.5)
+        
         folium.Circle(list(city_coordinates),
                       fill=True,
                       fill_color='crimson',
@@ -156,7 +163,7 @@ with col3:
         basemaps['Google Maps'].add_to(m)
         basemaps['Google Satellite Hybrid'].add_to(m)
     
-    folium_static(m)
+        folium_static(m)
 
 
 # print(predict_fire(horizon)['size'])

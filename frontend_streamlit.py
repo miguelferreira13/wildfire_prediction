@@ -34,13 +34,13 @@ st.markdown("""
     ### Felix Hermes, Miguel Ferreira & Krystyna Kooi
     """)
 
-city = st.text_input('Forecast', 'Type in an Australian city name')
-horizon = st.text_input('Horizon', 'Type in the amount of days')
+CITY = st.text_input('Forecast', 'Type in an Australian city name')
+HORIZON = st.text_input('Horizon', 'Type in the amount of days')
 
-if city == 'Type in an Australian city name':
+if CITY == 'Type in an Australian city name':
     st.write('Waiting for Forecast')
-elif  city in list(data['city']):
-    st.write(f'The forecast for {city} is')
+elif  CITY in list(data['city']):
+    st.write(f'The forecast for {CITY} is')
     #Weather API
 else:
     st.write('This is not a city in Australia')

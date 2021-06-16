@@ -4,6 +4,7 @@ from sklearn.utils.fixes import _joblib_parallel_args
 from google.cloud import storage
 import joblib
 import api.weather as w
+from frontend_streamlit import *
 
 BUCKET_NAME= 'wildfires_le_wagon'
 BUCKET_TRAIN_DATA_PATH = 'merged_data/merged_file.csv'
@@ -42,7 +43,8 @@ def predict_fire():
     
     # Data for prediction
     # size, binary = w.size(1, 'Wagga Wagga')
-    size, binary = w.get_all_states(1)
+    horizon = 1 if HORIZON == None or HORIZON == 'Type in the amount of days' else int(HORIZON)
+    size, binary = w.get_all_states(horizon)
     
     
     
@@ -75,7 +77,8 @@ def predict_city():
     
     # Data for prediction
     # size, binary = w.size(1, 'Wagga Wagga')
-    size, binary = w.get_weather(1, 'sydney')
+    horizon = 1 if HORIZON == None or HORIZON == 'Type in the amount of days' else int(HORIZON)
+    size, binary = w.get_weather(horizon, CITY)
     
     
     

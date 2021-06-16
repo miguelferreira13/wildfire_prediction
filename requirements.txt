@@ -168,4 +168,4 @@ yarl==1.6.3
 folium
 streamlit_folium
 geopandas
-
+fastapi

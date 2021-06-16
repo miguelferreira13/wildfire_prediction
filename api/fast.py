@@ -4,7 +4,6 @@ from sklearn.utils.fixes import _joblib_parallel_args
 from google.cloud import storage
 import joblib
 import api.weather as w
-from frontend_streamlit import *
 
 BUCKET_NAME= 'wildfires_le_wagon'
 BUCKET_TRAIN_DATA_PATH = 'merged_data/merged_file.csv'
@@ -22,7 +21,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 @app.get("/")
-def predict_fire():
+def predict_fire(HORIZON):
     
     # Binary model
     # client = storage.Client()
@@ -43,8 +42,8 @@ def predict_fire():
     
     # Data for prediction
     # size, binary = w.size(1, 'Wagga Wagga')
-    horizon = 1 if HORIZON == None or HORIZON == 'Type in the amount of days' else int(HORIZON)
-    size, binary = w.get_all_states(horizon)
+    
+    size, binary = w.get_all_states(HORIZON)
     
     
     
@@ -56,7 +55,7 @@ def predict_fire():
     return {"probability": probability, 'size': size_pred}
 
 @app.get("/city")
-def predict_city():
+def predict_city(HORIZON, CITY):
     
     # Binary model
     # client = storage.Client()
@@ -77,8 +76,8 @@ def predict_city():
     
     # Data for prediction
     # size, binary = w.size(1, 'Wagga Wagga')
-    horizon = 1 if HORIZON == None or HORIZON == 'Type in the amount of days' else int(HORIZON)
-    size, binary = w.get_weather(horizon, CITY)
+    
+    size, binary = w.size(HORIZON, CITY)
     
     
     
@@ -88,4 +87,5 @@ def predict_city():
 
     
     return {"probability": probability, 'size': size_pred}
-print(predict_fire())
+
+print(predict_city(1,'sydney'))

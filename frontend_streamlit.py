@@ -8,6 +8,7 @@ import os
 import folium
 from streamlit_folium import folium_static
 from google.cloud import storage
+from api.fast import predict_fire, predict_city
 
 coordinates = [{'state': 'NSW', 'coordinates': [-31.840233, 145.612793]},
                {'state': 'NT', 'coordinates': [-19.491411, 132.550964]},
@@ -44,7 +45,10 @@ elif  CITY in list(data['city']):
     #Weather API
 else:
     st.write('This is not a city in Australia')
-    
+
+button_pressed = False
+if st.button('click me'):
+    button_pressed = True
 
 
 #layer = pdk.Layer(
@@ -90,7 +94,16 @@ else:
 # coordinates_states = {'NSW':[-32.0948, 147.0100], 'NT': [-19.2300, 133.2128] ,'SA': [-30.0330, 135.4548],\
 #          'QL': [-22.2913, 144.2554], 'VI': [36.5115, 144.1652], 'TA': [-42.0117, 146.3536], 'WA': [-25.1941, 122.1754]}
 
-with st.echo():
+
+horizon = 1 if HORIZON == None or HORIZON == 'Type in the amount of days' else int(HORIZON)
+data_api = predict_fire(horizon)
+sizes = data_api['size']
+probabilities = data_api['probability']
+
+
+
+
+with st.map():
     coordinates_aus = [-25.2744, 133.7751]
 
     m = folium.Map(tiles='Stamen Terrain',location=coordinates_aus, zoom_start=3.5)
@@ -99,6 +112,24 @@ with st.echo():
                       fill=True,
                       fill_color='crimson',
                       color='red',
-                      radius=200000,
-                      popup='this is the probability').add_to(m)
+                      radius=sizes[i]*500,
+                      popup=f'The probability of a fire is {probabilities[i][1]:.1%}\
+                          and an estimated size of {sizes[i]:.1f} km_2').add_to(m)
+    
+    if button_pressed:
+        city_api = predict_city(horizon, CITY)
+        sizes_city = city_api['size'][0]
+        probabilities_city = city_api['probability'][0][1]
+        city_coordinates = list(data[data.city == CITY.title()][['lat', 'lng']].values)[0]
+        folium.Circle(list(city_coordinates),
+                      fill=True,
+                      fill_color='crimson',
+                      color='red',
+                      radius=sizes_city*500,
+                      popup=f'The probability of a fire is {probabilities_city:.1%}\
+                          and an estimated size of {sizes_city:.1f} km_2').add_to(m)
+    
     folium_static(m)
+
+
+# print(predict_fire(horizon)['size'])

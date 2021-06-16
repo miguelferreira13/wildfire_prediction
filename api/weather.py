@@ -190,3 +190,4 @@ def get_all_states(i=1):
     return fire_size, fire_binary
 
 
+print(size(1, 'sydney'))

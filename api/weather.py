@@ -4,6 +4,7 @@ import pandas as pd
 import datetime
 import numpy as np
 import os
+from google.cloud import storage
 
 from requests.api import get
 
@@ -54,12 +55,20 @@ def get_weather(i, location):
     }
     
     # print(info)
-    
-    root_path = os.path.dirname(os.path.abspath(os.path.curdir))
-    data_folder_path = os.path.join(root_path, 'wildfire_prediction/wildfire_prediction', 'data')
-    data_file_path = os.path.join(data_folder_path, 'wfz_data.csv')
+    BUCKET_NAME= 'wildfires_le_wagon'
+    BUCKET_TRAIN_DATA_PATH = 'merged_data/merged_file.csv'
+    MODEL_NAME = 'wildfire prediction'
+    STORAGE_LOCATION3 = 'merged_data/wfz_data.csv'
+    client = storage.Client()
+    bucket = client.get_bucket(BUCKET_NAME)
+    blob = bucket.blob(STORAGE_LOCATION3)
+    blob.download_to_filename('wfz_data.csv')
 
-    data = pd.read_csv(data_file_path, index_col=0)
+    # root_path = os.path.dirname(os.path.abspath(os.path.curdir))
+    # data_folder_path = os.path.join(root_path, 'wildfire_prediction/wildfire_prediction', 'data')
+    # data_file_path = os.path.join(data_folder_path, 'wfz_data.csv')
+
+    data = pd.read_csv('wfz_data.csv', index_col=0)
     month = datetime.datetime.today().month
     state = states[response['state_code']]
     

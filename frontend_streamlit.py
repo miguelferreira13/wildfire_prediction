@@ -8,7 +8,6 @@ import os
 import folium
 from streamlit_folium import folium_static
 from google.cloud import storage
-from wildfire_prediction.RF_model import predict_proba_rf
 
 coordinates = [{'state': 'NSW', 'coordinates': [-31.840233, 145.612793]},
                {'state': 'NT', 'coordinates': [-19.491411, 132.550964]},
@@ -35,13 +34,13 @@ st.markdown("""
     ### Felix Hermes, Miguel Ferreira & Krystyna Kooi
     """)
 
-title = st.text_input('Forecast', 'Type in an Australian city name')
-title2 = st.text_input('Horizon', 'Type in the amount of days')
+city = st.text_input('Forecast', 'Type in an Australian city name')
+horizon = st.text_input('Horizon', 'Type in the amount of days')
 
-if title == 'Type in an Australian city name':
+if city == 'Type in an Australian city name':
     st.write('Waiting for Forecast')
-elif  title in list(data['city']):
-    st.write(f'The forecast for {title} is')
+elif  city in list(data['city']):
+    st.write(f'The forecast for {city} is')
     #Weather API
 else:
     st.write('This is not a city in Australia')
@@ -91,7 +90,7 @@ else:
 # coordinates_states = {'NSW':[-32.0948, 147.0100], 'NT': [-19.2300, 133.2128] ,'SA': [-30.0330, 135.4548],\
 #          'QL': [-22.2913, 144.2554], 'VI': [36.5115, 144.1652], 'TA': [-42.0117, 146.3536], 'WA': [-25.1941, 122.1754]}
 
-with st.map():
+with st.echo():
     coordinates_aus = [-25.2744, 133.7751]
 
     m = folium.Map(tiles='Stamen Terrain',location=coordinates_aus, zoom_start=3.5)
@@ -101,5 +100,5 @@ with st.map():
                       fill_color='crimson',
                       color='red',
                       radius=200000,
-                      popup=f'the probability of a wildfire is: ').add_to(m)
+                      popup='this is the probability').add_to(m)
     folium_static(m)

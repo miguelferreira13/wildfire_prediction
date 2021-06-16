@@ -52,4 +52,37 @@ def predict_fire():
 
     
     return {"probability": probability, 'size': size_pred}
+
+@app.get("/city")
+def predict_fire():
+    
+    # Binary model
+    # client = storage.Client()
+    # bucket = client.get_bucket(BUCKET_NAME)
+    # blob = bucket.blob(STORAGE_LOCATION1)
+    # blob.download_to_filename('model_binary.joblib')
+    
+    rf_model =joblib.load('model_binary.joblib')
+    
+    
+    # Size model
+    # client2 = storage.Client()
+    # bucket = client2.get_bucket(BUCKET_NAME)
+    # blob2 = bucket.blob(STORAGE_LOCATION2)
+    # blob2.download_to_filename('wildfire_size_model.joblib')
+    
+    size_model = joblib.load('wildfire_size_model.joblib')
+    
+    # Data for prediction
+    # size, binary = w.size(1, 'Wagga Wagga')
+    size, binary = w.get_weather(1, 'sydney')
+    
+    
+    
+    # Results
+    probability = rf_model.predict_proba(binary)
+    size_pred = size_model.predict(size)
+
+    
+    return {"probability": probability, 'size': size_pred}
 print(predict_fire())

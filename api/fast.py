@@ -54,7 +54,7 @@ def predict_fire():
     return {"probability": probability, 'size': size_pred}
 
 @app.get("/city")
-def predict_fire():
+def predict_city():
     
     # Binary model
     # client = storage.Client()

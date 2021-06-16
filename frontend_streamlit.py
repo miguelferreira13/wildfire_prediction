@@ -138,6 +138,7 @@ with col3:
         # Add custom basemaps
         basemaps['Google Maps'].add_to(m)
         basemaps['Google Satellite Hybrid'].add_to(m)
+        basemaps['Google Terrain'].add_to(m)
         folium_static(m)
 
     
@@ -162,6 +163,7 @@ with col3:
                           Estimated_size: {sizes_city*0.8:.1f} km_2').add_to(m)
         basemaps['Google Maps'].add_to(m)
         basemaps['Google Satellite Hybrid'].add_to(m)
+        basemaps['Google Terrain'].add_to(m)
     
         folium_static(m)
 

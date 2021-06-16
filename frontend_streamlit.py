@@ -35,7 +35,7 @@ root_path = os.path.dirname(os.path.abspath(os.path.curdir))
 data_folder_path = os.path.join(root_path, 'wildfire_prediction')
 data_file_path = os.path.join(data_folder_path, 'Australian_cities.csv')
 
-data = pd.read_csv(data_file_path)
+data = pd.read_csv('Australian_cities')
 st.set_page_config(page_title="My Wildfire prediction",layout='wide')
 
 st.markdown("""

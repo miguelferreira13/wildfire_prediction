@@ -57,8 +57,6 @@ def get_weather(i, location):
     
     # print(info)
     BUCKET_NAME= 'wildfires_le_wagon'
-    BUCKET_TRAIN_DATA_PATH = 'merged_data/merged_file.csv'
-    MODEL_NAME = 'wildfire prediction'
     STORAGE_LOCATION3 = 'merged_data/wfz_data.csv'
     client = storage.Client()
     bucket = client.get_bucket(BUCKET_NAME)

@@ -22,6 +22,14 @@ coordinates = [{'state': 'NSW', 'coordinates': [-31.840233, 145.612793]},
 #data = bucket.get_blob('Australian_cities')
 # STORAGE_LOCATION3 = ‘merged_data/Australian_cities.csv’
 # Cities = pd.read_csv(f”gs://{STORAGE_LOCATION3}“)
+
+BUCKET_NAME= 'wildfires_le_wagon'
+STORAGE_LOCATION4 = 'merged_data/Australian_cities.csv'
+client = storage.Client()
+bucket = client.get_bucket(BUCKET_NAME)
+blob = bucket.blob(STORAGE_LOCATION4)
+blob.download_to_filename('Australian_cities.csv')
+
 df = pd.DataFrame(data=coordinates, columns=['state', 'coordinates'])
 root_path = os.path.dirname(os.path.abspath(os.path.curdir))
 data_folder_path = os.path.join(root_path, 'wildfire_prediction')

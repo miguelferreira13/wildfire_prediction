@@ -14,7 +14,7 @@ def merge_two_dicts(x, y):
     z.update(y)
     return z
 
-def get_weather(i, location):
+def get_weather(i, lat, lon):
     
     url = 'https://api.weatherbit.io/v2.0/forecast/daily'
     params = {
@@ -22,7 +22,8 @@ def get_weather(i, location):
         'key': 'f8641658cbb44ce18c5eb2d0ebcff7bf',
         'units': 'M',
         'days': i,
-        'city': location,
+        'lat': lat,
+        'lon': lon,
         'country': 'AU'
     }
     response = requests.get(url, params=params).json()
@@ -56,16 +57,16 @@ def get_weather(i, location):
     }
     
     # print(info)
-    BUCKET_NAME= 'wildfires_le_wagon'
-    STORAGE_LOCATION3 = 'merged_data/wfz_data.csv'
-    client = storage.Client()
-    bucket = client.get_bucket(BUCKET_NAME)
-    blob = bucket.blob(STORAGE_LOCATION3)
-    blob.download_to_filename('wfz_data.csv')
+    # BUCKET_NAME= 'wildfires_le_wagon'
+    # STORAGE_LOCATION3 = 'merged_data/wfz_data.csv'
+    # client = storage.Client()
+    # bucket = client.get_bucket(BUCKET_NAME)
+    # blob = bucket.blob(STORAGE_LOCATION3)
+    # blob.download_to_filename('wfz_data.csv')
 
-    # root_path = os.path.dirname(os.path.abspath(os.path.curdir))
-    # data_folder_path = os.path.join(root_path, 'wildfire_prediction/wildfire_prediction', 'data')
-    # data_file_path = os.path.join(data_folder_path, 'wfz_data.csv')
+    root_path = os.path.dirname(os.path.abspath(os.path.curdir))
+    data_folder_path = os.path.join(root_path, 'wildfire_prediction/wildfire_prediction', 'data')
+    data_file_path = os.path.join(data_folder_path, 'wfz_data.csv')
 
     data = pd.read_csv('wfz_data.csv', index_col=0)
     month = datetime.datetime.today().month
@@ -78,7 +79,7 @@ def get_weather(i, location):
     
     return merge_two_dicts(info, values)
 
-def size(i, location):
+def size(i, lat, lon):
     
     columns_size = ['count()[unit: km^2]', 'max() Temperature', 'mean() Precipitation',
         'mean() RelativeHumidity', 'mean() SolarRadiation',
@@ -89,7 +90,7 @@ def size(i, location):
         'Permanent water bodies', 'Herbaceous wetland', 'Open sea', 'Forest',
         'NSW', 'NT', 'QL', 'SA', 'TA', 'VI', 'WA']
     
-    data = get_weather(i, location)
+    data = get_weather(i, lat, lon)
     
     fire_size = np.array([data[col] for col in columns_size])
     
@@ -198,5 +199,3 @@ def get_all_states(i=1):
     
     return fire_size, fire_binary
 
-
-print(size(1, 'sydney'))

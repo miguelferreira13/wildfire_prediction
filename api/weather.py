@@ -18,8 +18,8 @@ def get_weather(i, lat, lon):
     
     url = 'https://api.weatherbit.io/v2.0/forecast/daily'
     params = {
-        # 'key': '84b60447ea064fd89d7365f1940bc0eb',f8641658cbb44ce18c5eb2d0ebcff7bf
-        'key': 'f8641658cbb44ce18c5eb2d0ebcff7bf',
+        'key': '84b60447ea064fd89d7365f1940bc0eb',
+        # 'key': 'f8641658cbb44ce18c5eb2d0ebcff7bf',
         'units': 'M',
         'days': i,
         'lat': lat,
@@ -134,8 +134,8 @@ def get_all_states(i=1):
         lat = state['coordinates'][0]
         lon = state['coordinates'][0]
         params = {
-        # 'key': '84b60447ea064fd89d7365f1940bc0eb',f8641658cbb44ce18c5eb2d0ebcff7bf
-        'key': 'f8641658cbb44ce18c5eb2d0ebcff7bf',
+        'key': '84b60447ea064fd89d7365f1940bc0eb',
+        # 'key': 'f8641658cbb44ce18c5eb2d0ebcff7bf',
         'units': 'M',
         'days': i,
         'lat': lat,

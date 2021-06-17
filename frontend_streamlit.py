@@ -1,3 +1,4 @@
+from fastapi.params import Header
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
@@ -38,17 +39,14 @@ data_file_path = os.path.join(data_folder_path, 'Australian_cities.csv')
 data = pd.read_csv('Australian_cities.csv')
 st.set_page_config(page_title="My Wildfire prediction",layout='wide')
 
-st.markdown("""
-    # Wildfire prediction for Australia
-    ## Data Science group project, Le-Wagon Amsterdam batch 627
-    ### Felix Hermes, Miguel Ferreira & Krystyna Kooi
-    
-    ---
-    
-    
-    """)
+buffer, header, image, buffer1 = st.beta_columns([1,12,2,1])
+image.image('api/Bushfire.png', width=50)
+header.markdown("""# Wildfire Prediction - Australia""")
 
-col1, col2, col3, col4 = st.beta_columns([1,4,10,1])
+nothing, onecol, nothing2 = st.beta_columns([1,14,1])
+onecol.markdown("""---""")
+
+col1, col2, col3, col4 = st.beta_columns([1,5,9,1])
 
 col1.markdown("")
 col1.markdown("")
@@ -58,10 +56,13 @@ col1.markdown("")
 col1.markdown("")
 col1.markdown("")
 col1.markdown(":stopwatch:")
-CITY = col2.selectbox('Select a city', tuple(['Showing sates (default)'] + list(data['city'])))
+
+CITY = col2.selectbox('Select a city', tuple(['Showing sates (default)'] + sorted(list(set(list(data['city']))))))
 # CITY = col2.text_input('Forecast', 'Type in an Australian city name')
 
 HORIZON = col2.slider('Horizon', 1, 16)
+
+col2.image('kangaroo.png')
 
 # if CITY == 'Type in an Australian city name':
 #     col2.write('Waiting for Forecast')
@@ -124,7 +125,7 @@ with col3:
     if not button_pressed:
         
         coordinates_aus = [-25.2744, 133.7751]
-        m = folium.Map(location=coordinates_aus, zoom_start=4.3)
+        m = folium.Map(location=coordinates_aus, zoom_start=4.3,width='80%', height='80%')
     
         for i in range(7):
             folium.Circle(coordinates[i]['coordinates'],
@@ -147,14 +148,13 @@ with col3:
     if button_pressed:
         city_coordinates = list(data[data.city == CITY][['lat', 'lng']].values)[0]
         
-        
         city_api = predict_city(horizon, city_coordinates[0], city_coordinates[1])
         sizes_city = city_api['size'][0]
         probabilities_city = city_api['probability'][0][1]
         
         
         
-        m = folium.Map(location=city_coordinates, zoom_start=8.5)
+        m = folium.Map(location=city_coordinates, zoom_start=8.5,width='80%', height='80%')
         
         folium.Circle(list(city_coordinates),
                       fill=True,
@@ -170,5 +170,10 @@ with col3:
     
         folium_static(m)
 
+nothing, onecol, nothing2 = st.beta_columns([1,14,1])
+onecol.markdown("""---""")
+footer, buffer2, our_names = st.beta_columns([9,2,5])
+footer.markdown("""#### Le Wagon Amsterdam - DS627 (Team 3)""")
+our_names.markdown("""#### Felix Hermes, Miguel Ferreira & Krystyna Kooi""")
 
 # print(predict_fire(horizon)['size'])

@@ -1,4 +1,5 @@
 from fastapi.params import Header
+from numpy.core.fromnumeric import size
 import streamlit as st
 import pandas as pd
 import pydeck as pdk
@@ -62,7 +63,7 @@ CITY = col2.selectbox('Select a city', tuple(['Showing sates (default)'] + sorte
 
 HORIZON = col2.slider('Horizon', 1, 16)
 
-col2.image('kangaroo.png')
+col2.image('kangaroo.png', width=80, use_column_width='auto')
 
 # if CITY == 'Type in an Australian city name':
 #     col2.write('Waiting for Forecast')

@@ -29,7 +29,7 @@ def get_weather(i, lat, lon):
     response = requests.get(url, params=params).json()
     
     states = {
-        '01': '',
+        '01': 'NSW',
         '02': 'NSW',
         '03': 'NT',
         '04': 'QL',
@@ -205,4 +205,3 @@ def get_all_states(i=1):
     fire_binary = data_frame[columns_binary]
     
     return fire_size, fire_binary
-

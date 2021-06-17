@@ -55,7 +55,7 @@ def predict_fire(HORIZON):
     return {"probability": probability, 'size': size_pred}
 
 @app.get("/city")
-def predict_city(HORIZON, CITY):
+def predict_city(HORIZON, lat, lon):
     
     # Binary model
     client = storage.Client()
@@ -77,7 +77,7 @@ def predict_city(HORIZON, CITY):
     # Data for prediction
     # size, binary = w.size(1, 'Wagga Wagga')
     
-    size, binary = w.size(HORIZON, CITY)
+    size, binary = w.size(HORIZON, lat, lon)
     
     
     

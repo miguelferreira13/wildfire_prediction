@@ -23,12 +23,12 @@ coordinates = [{'state': 'NSW', 'coordinates': [-31.840233, 145.612793]},
 # STORAGE_LOCATION3 = ‘merged_data/Australian_cities.csv’
 # Cities = pd.read_csv(f”gs://{STORAGE_LOCATION3}“)
 
-BUCKET_NAME= 'wildfires_le_wagon'
-STORAGE_LOCATION4 = 'merged_data/Australian_cities.csv'
-client = storage.Client()
-bucket = client.get_bucket(BUCKET_NAME)
-blob = bucket.blob(STORAGE_LOCATION4)
-blob.download_to_filename('Australian_cities.csv')
+# BUCKET_NAME= 'wildfires_le_wagon'
+# STORAGE_LOCATION4 = 'merged_data/Australian_cities.csv'
+# client = storage.Client()
+# bucket = client.get_bucket(BUCKET_NAME)
+# blob = bucket.blob(STORAGE_LOCATION4)
+# blob.download_to_filename('Australian_cities.csv')
 
 df = pd.DataFrame(data=coordinates, columns=['state', 'coordinates'])
 root_path = os.path.dirname(os.path.abspath(os.path.curdir))
@@ -145,10 +145,13 @@ with col3:
 
     
     if button_pressed:
-        city_api = predict_city(horizon, CITY)
+        city_coordinates = list(data[data.city == CITY][['lat', 'lng']].values)[0]
+        
+        
+        city_api = predict_city(horizon, city_coordinates[0], city_coordinates[1])
         sizes_city = city_api['size'][0]
         probabilities_city = city_api['probability'][0][1]
-        city_coordinates = list(data[data.city == CITY.title()][['lat', 'lng']].values)[0]
+        
         
         
         m = folium.Map(location=city_coordinates, zoom_start=8.5)

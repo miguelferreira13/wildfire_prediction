@@ -24,19 +24,19 @@ app.add_middleware(
 def predict_fire(HORIZON):
     
     # Binary model
-    client = storage.Client()
-    bucket = client.get_bucket(BUCKET_NAME)
-    blob = bucket.blob(STORAGE_LOCATION1)
-    blob.download_to_filename('model_binary.joblib')
+    # client = storage.Client()
+    # bucket = client.get_bucket(BUCKET_NAME)
+    # blob = bucket.blob(STORAGE_LOCATION1)
+    # blob.download_to_filename('model_binary.joblib')
     
     rf_model = joblib.load('model_binary.joblib')
     
     
     # Size model
-    client2 = storage.Client()
-    bucket = client2.get_bucket(BUCKET_NAME)
-    blob2 = bucket.blob(STORAGE_LOCATION2)
-    blob2.download_to_filename('wildfire_size_model.joblib')
+    # client2 = storage.Client()
+    # bucket = client2.get_bucket(BUCKET_NAME)
+    # blob2 = bucket.blob(STORAGE_LOCATION2)
+    # blob2.download_to_filename('wildfire_size_model.joblib')
     
     size_model = joblib.load('wildfire_size_model.joblib')
     
@@ -58,19 +58,19 @@ def predict_fire(HORIZON):
 def predict_city(HORIZON, lat, lon):
     
     # Binary model
-    client = storage.Client()
-    bucket = client.get_bucket(BUCKET_NAME)
-    blob = bucket.blob(STORAGE_LOCATION1)
-    blob.download_to_filename('model_binary.joblib')
+    # client = storage.Client()
+    # bucket = client.get_bucket(BUCKET_NAME)
+    # blob = bucket.blob(STORAGE_LOCATION1)
+    # blob.download_to_filename('model_binary.joblib')
     
     rf_model = joblib.load('model_binary.joblib')
     
     
     # Size model
-    client2 = storage.Client()
-    bucket = client2.get_bucket(BUCKET_NAME)
-    blob2 = bucket.blob(STORAGE_LOCATION2)
-    blob2.download_to_filename('wildfire_size_model.joblib')
+    # client2 = storage.Client()
+    # bucket = client2.get_bucket(BUCKET_NAME)
+    # blob2 = bucket.blob(STORAGE_LOCATION2)
+    # blob2.download_to_filename('wildfire_size_model.joblib')
     
     size_model = joblib.load('wildfire_size_model.joblib')
     

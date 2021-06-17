@@ -154,7 +154,7 @@ with col3:
         
         
         
-        m = folium.Map(location=city_coordinates, zoom_start=8.5,width='80%', height='80%')
+        m = folium.Map(location=city_coordinates, zoom_start=6.5,width='80%', height='80%')
         
         folium.Circle(list(city_coordinates),
                       fill=True,

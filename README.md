@@ -15,3 +15,4 @@ In the rf_model.py file, the following functions can be found:
 - score_rf(): returns a score of the model based on the test set 
 - save_model(): saves the model as a joblib file 
 - load_model(): loads the model 
+
